@@ -1,0 +1,15 @@
+/* [project]/src/components/category.module.css [app-client] (css) */
+.category-module__lAscma__scroll-invisivel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-radius: 4px;
+  max-height: 305px;
+  overflow-y: auto;
+}
+
+.category-module__lAscma__scroll-invisivel::-webkit-scrollbar {
+  display: none;
+}
+
+
+/*# sourceMappingURL=src_components_category_module_ca991f80.css.map*/

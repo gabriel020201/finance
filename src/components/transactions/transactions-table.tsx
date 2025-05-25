@@ -2,6 +2,7 @@ import * as lucide from "lucide-react";
 import transactions from "../../assets/transactions.json" with { type: "json" };
 import React from "react";
 
+
 type Transaction = typeof transactions[0];
 
 export function TransactionTable() {
@@ -17,8 +18,10 @@ export function TransactionTable() {
         height: "100%",
       }}
     >
-      <h3>Transactions</h3>
+      <h3 style={{ color: "#fff", fontSize: "1.5rem", fontWeight: "bold" }}> 
+      Transações</h3>
       <div
+        className="scrollHidden"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -26,12 +29,15 @@ export function TransactionTable() {
           width: "100%",
           overflowY: hasScroll ? "auto" : "hidden",
           height: "300px", 
+          
+          
         }}
       >
         <table
           style={{
-            borderCollapse: "collapse",
+            borderCollapse: "separate",
             width: "100%",
+            
           }}
         >
           <thead>
@@ -71,12 +77,14 @@ export function TransactionTable() {
               <tr
                 key={transaction.id}
                 style={{
-                  backgroundColor: "#27272A",
+                  
                   borderRadius: "8px",
                   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   color: "#fff",
                   textAlign: "center",
+                  
                   padding: "0.5rem",
+                  
                 }}
               >
                 <td>

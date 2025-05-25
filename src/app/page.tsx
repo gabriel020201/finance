@@ -1,72 +1,73 @@
 "use client"
 
-import { CardSummary } from "@/components/card-summary";
-import { Category } from "@/components/category";
-import { ChartAnalyze } from "@/components/chart-analyze";
+import { CardSummary } from "@/components/cards/card-summary";
+import { Category } from "@/components/categorys/category";
+import { ChartAnalyze } from "@/components/charts/chart-analyze";
 import { Header } from "@/components/header";
 import { TransactionTable } from "@/components/transactions/transactions-table";
-import { Banknote, BanknoteArrowDown, BanknoteArrowUp, Car, CircleEllipsis, Hamburger, Pill, TreePalm } from "lucide-react";
+
+import transactions from "@/assets/transactions.json";
+
+import { BanknoteArrowDown, BanknoteArrowUp, Banknote } from "lucide-react";
 
 
-const categories = [
-  {
-    id: "1",
-    icon: Hamburger,
-    name: "Alimentação",
-    quantity: 10,
-    amount: 100,
-  },
-  {
-    id: "2",
-    icon: Car,
-    name: "Transporte",
-    quantity: 5,
-    amount: 50,
-  },
-  {
-    id: "3",
-    icon: TreePalm,
-    name: "Lazer",
-    quantity: 3,
-    amount: 30,
-  },
-  {
-    id: "4",
-    icon: Pill,
-    name: "Saúde",
-    quantity: 2,
-    amount: 20,
-  },
-  {
-    id: "5",
-    icon: CircleEllipsis,
-    name: "Educação",
-    quantity: 1,
-    amount: 10,
-  },  
-]
 
+// Calcula os totais a partir do JSON
+const totalEntries = transactions
+  .filter((t: any) => t.type === "income")
+  .reduce((sum: number, t: any) => sum + (t.amount || 0), 0);
+
+const totalExits = transactions
+  .filter((t: any) => t.type === "expense")
+  .reduce((sum: number, t: any) => sum + (t.amount || 0), 0);
+
+const totalBalance = totalEntries - totalExits;
 
 const cards = [
   {
     icon: BanknoteArrowDown,
     title: "Entradas",
-    amount: 7840.56,
+    amount: totalEntries,
     description: "Soma de todas as entradas do período",
   },
   {
     icon: BanknoteArrowUp,
     title: "Saídas",
-    amount: 1580.45,
+    amount: totalExits,
     description: "Soma de todas as saídas do período",
   },
   {
     icon: Banknote,
     title: "Balanço",
-    amount: 6260.11,
+    amount: totalBalance,
     description: "Soma de todas as entradas e saídas do período",
   }
 ]
+
+function getCategoriesFromTransactions(transactions: any[]) {
+  const map = new Map<string, { id: string; icon: any; name: string; quantity: number; amount: number }>();
+  transactions.forEach((t) => {
+    if (!t.category || !t.category.name) return;
+    const key = t.category.name;
+    const icon = t.category.icon;
+    if (map.has(key)) {
+      const cat = map.get(key)!;
+      cat.quantity += 1;
+      cat.amount += t.amount || 0;
+    } else {
+      map.set(key, {
+        id: key,
+        icon,
+        name: key,
+        quantity: 1,
+        amount: t.amount || 0,
+      });
+    }
+  });
+  return Array.from(map.values());
+}
+
+const categories = getCategoriesFromTransactions(transactions);
 
 export default function Home() {
 
@@ -79,7 +80,7 @@ export default function Home() {
     justifyContent: "start",
     alignItems: "start",
     height: "100%",
-    maxWidth: "100%",
+    maxWidth: "1200px",
     width: "100%",
     margin: "0 auto",
     padding: "1rem",

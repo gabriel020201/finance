@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/gutor/Desktop/finance-meu/src/components/categorys/category.module.css"],"sourcesContent":[".scroll-invisivel {\r\n  overflow-y: auto;\r\n  scrollbar-width: none;\r\n  -ms-overflow-style: none;\r\n  max-height: 305px;\r\n  border-radius: 4px;\r\n}\r\n.scroll-invisivel::-webkit-scrollbar {\r\n  display: none; \r\n}"],"names":[],"mappings":"AAAA;;;;;;;;AAOA","debugId":null}}]
-}

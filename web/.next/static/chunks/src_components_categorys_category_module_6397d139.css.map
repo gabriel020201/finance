@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Vitale/Desktop/finance-main/web/src/components/categorys/category.module.css"],"sourcesContent":[".scroll-invisivel {\n  overflow-y: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  max-height: 305px;\n  border-radius: 4px;\n}\n.scroll-invisivel::-webkit-scrollbar {\n  display: none; \n}"],"names":[],"mappings":"AAAA;;;;;;;;AAOA","debugId":null}}]
+}

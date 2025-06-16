@@ -1,0 +1,15 @@
+/* [project]/src/components/categorys/category.module.css [app-client] (css) */
+.category-module__aLZexW__scroll-invisivel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-radius: 4px;
+  max-height: 305px;
+  overflow-y: auto;
+}
+
+.category-module__aLZexW__scroll-invisivel::-webkit-scrollbar {
+  display: none;
+}
+
+
+/*# sourceMappingURL=src_components_categorys_category_module_6397d139.css.map*/

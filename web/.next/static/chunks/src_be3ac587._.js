@@ -628,7 +628,11 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { g: global, __dirname } = __turbopack_context__;
 {
+<<<<<<< HEAD
 __turbopack_context__.v("/_next/static/media/logo.f8d26817.svg");}}),
+=======
+__turbopack_context__.v("/_next/static/media/logo.daf62d92.svg");}}),
+>>>>>>> f5c4d04ed7c15192faa363032bcdc85e4a3a2b56
 "[project]/src/assets/logo.svg.mjs { IMAGE => \"[project]/src/assets/logo.svg (static in ecmascript)\" } [app-client] (structured image object, ecmascript)": ((__turbopack_context__) => {
 "use strict";
 

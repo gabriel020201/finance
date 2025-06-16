@@ -2,5 +2,9 @@
   "version": 3,
   "sources": [],
   "sections": [
+<<<<<<< HEAD
     {"offset": {"line": 12, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Vitale/Desktop/finance-main/web/src/app/favicon.ico.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 32, height: 32 }\n"],"names":[],"mappings":";;;AAAA;;uCACe;IAAE,KAAA,8GAAA,CAAA,UAAG;IAAE,OAAO;IAAI,QAAQ;AAAG","debugId":null}}]
+=======
+    {"offset": {"line": 12, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/gutor/Desktop/finance-meu/web/src/app/favicon.ico.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 32, height: 32 }\n"],"names":[],"mappings":";;;AAAA;;uCACe;IAAE,KAAA,8GAAA,CAAA,UAAG;IAAE,OAAO;IAAI,QAAQ;AAAG","debugId":null}}]
+>>>>>>> f5c4d04ed7c15192faa363032bcdc85e4a3a2b56
 }

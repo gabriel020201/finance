@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Fastify from 'fastify';
 
 const fastify = Fastify();
@@ -43,28 +42,5 @@ fastify.get('/', (req, reply) => {
 
 fastify.listen({ port: 3333 }, (err, address) => {
   if (err) throw err;
-  console.log(`Server listening at ${address}`);
-=======
-import Fastify from "fastify";
-import cors from "@fastify/cors";
-import fs from "fs";
-import path from "path";
-
-const fastify = Fastify({ logger: true });
-
-fastify.register(cors, { origin: "*" });
-
-fastify.get("/transactions", async (request, reply) => {
-  const filePath = path.join(__dirname, "..", "web", "src", "assets", "transactions.json");
-  const data = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(data);
-});
-
-fastify.listen({ port: 3333 }, (err, address) => {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-  fastify.log.info(`Server listening at ${address}`);
->>>>>>> f5c4d04ed7c15192faa363032bcdc85e4a3a2b56
-});
+    console.log(`Server listening at ${address}`);
+  });

@@ -7,29 +7,14 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
-    "dev": "ts-node --loader ts-node/esm server.ts"
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.32",
-    "ts-node": "^10.9.2",
-=======
     "dev": "tsx watch src/server.ts"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
->>>>>>> f5c4d04ed7c15192faa363032bcdc85e4a3a2b56
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "fastify": "^5.4.0"
-  },
-  "keywords": []
-}
-=======
     "fastify": "^5.3.3"
   }
 }
->>>>>>> f5c4d04ed7c15192faa363032bcdc85e4a3a2b56

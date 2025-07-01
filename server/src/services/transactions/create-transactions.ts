@@ -8,7 +8,7 @@ export class CreateTransactionService {
   }
 
   async execute(data: CreateTransactionDTO): Promise<any> {
-    // Validação básica
+   
     if (
       !data.amount ||
       !data.description ||
@@ -20,7 +20,7 @@ export class CreateTransactionService {
       throw new Error("Todos os campos obrigatórios devem ser preenchidos");
     }
 
-    // Aqui você pode adicionar validações extras, como valores negativos, tipos, etc.
+    
 
     const newTransaction = await this.transactionRepository.create(data);
     return newTransaction;

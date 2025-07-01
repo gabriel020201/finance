@@ -7,11 +7,7 @@ export class CategoryRepositoryInMemory implements CategoryInterfaceRepository {
   async findById(id: string): Promise<Category | null> {
     const category = this.categories.find(category => category.id === id);
 
-    // if (category === undefined) {
-    //   return null;
-    // } else {
-    //   return category;
-    // }
+   
 
     return category  || null;
   }

@@ -1,46 +1,14 @@
 import { FastifyInstance } from "fastify";
-import { CreateBankService } from "../services/banks/create-banks.js";
+import { BanksController } from "../controllers/banks-controller.js";
+import { BankRepositoryPrisma } from "../repositories/bank-repository-prisma.js";
 
-export async function banksRoutes(fastify: FastifyInstance, opts: any) {
-  const bankRepository = opts.bankRepository;
-  const createBankService = new CreateBankService(bankRepository);
+export async function banksRoutes(fastify: FastifyInstance) {
+  const bankRepository = new BankRepositoryPrisma();
+  const banksController = new BanksController(bankRepository);
 
-  fastify.post('/banks', async (request, reply) => {
-    const data = request.body as any;
-    const bank = await createBankService.execute(data);
-    return reply.send(bank);
-  });
-
-  fastify.get('/banks', async (request, reply) => {
-    const banks = await bankRepository.findAll();
-    return reply.send(banks);
-  });
-
-  fastify.get('/banks/:id', async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const bank = await bankRepository.findById(id);
-    if (!bank) return reply.status(404).send({ error: 'Bank not found' });
-    return reply.send(bank);
-  });
-
-  fastify.patch('/banks/:id', async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const { name, code, fullName, ispb } = request.body as any;
-    const bank = await bankRepository.findById(id);
-    if (!bank) return reply.status(404).send({ error: 'Bank not found' });
-
-    if (name) bank.name = name;
-    if (code) bank.code = code;
-    if (fullName) bank.fullName = fullName;
-    if (ispb) bank.ispb = ispb;
-
-    await bankRepository.update(bank);
-    return reply.send(bank);
-  });
-
-  fastify.delete('/banks/:id', async (request, reply) => {
-    const { id } = request.params as { id: string };
-    await bankRepository.delete(id);
-    return reply.status(204).send();
-  });
+  fastify.post('/banks', (request, reply) => banksController.create(request, reply));
+  fastify.get('/banks', (request, reply) => banksController.index(request, reply));
+  fastify.get('/banks/:id', (request, reply) => banksController.show(request, reply));
+  fastify.patch('/banks/:id', (request, reply) => banksController.update(request, reply));
+  fastify.delete('/banks/:id', (request, reply) => banksController.delete(request, reply));
 }

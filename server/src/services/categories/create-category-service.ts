@@ -12,7 +12,7 @@ export class CreateCategoryService {
       throw new Error('Name are required');
     }
 
-    // Check if the category with the same name already exists
+   
 
     const existingCategory = await this.categoryRepository.findByName(name);
     if (existingCategory) {

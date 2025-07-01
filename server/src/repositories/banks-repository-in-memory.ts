@@ -14,6 +14,11 @@ export class BankRepositoryInMemory implements BankInterfaceRepository {
     return bank || null;
   }
 
+  async findByIspb(ispb: string): Promise<Bank | null> {
+    const bank = this.banks.find(bank => bank.ispb === ispb);
+    return bank || null;
+  }
+
   async findAll(): Promise<Bank[]> {
     return this.banks;
   }
@@ -24,7 +29,7 @@ export class BankRepositoryInMemory implements BankInterfaceRepository {
       bank.name,
       bank.code,
       bank.fullName
-      // id, createdAt, updatedAt são opcionais
+      
     );
     this.banks.push(newBank);
     return newBank;

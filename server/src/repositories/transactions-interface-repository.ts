@@ -5,7 +5,7 @@ export type CreateTransactionDTO = {
   description: string;
   date: Date;
   categoryId: string;
-  ispb: string; // Adicione esta linha
+  ispb: string;
   type: "income" | "expense";
 }
 

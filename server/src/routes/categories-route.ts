@@ -1,44 +1,14 @@
 import { FastifyInstance } from "fastify";
-import { CreateCategoryService } from "../services/categories/create-category-service.js";
-import { CategoryRepositoryInMemory } from "../repositories/category-repository-in-memory.js";
+import { CategoriesController } from "../controllers/categories-controller.js";
+import { CategoryRepositoryPrisma } from "../repositories/category-repository-prisma.js";
 
-export async function categoriesRoutes(fastify: FastifyInstance, opts: any) {
-  const categoryRepository = opts.categoryRepository;
-  const createCategoryService = new CreateCategoryService(categoryRepository);
+export async function categoriesRoutes(fastify: FastifyInstance) {
+  const categoryRepository = new CategoryRepositoryPrisma();
+  const categoriesController = new CategoriesController(categoryRepository);
 
-  fastify.post('/categories', async (request, reply) => {
-    const { name, icon } = request.body as { name: string, icon?: string | null };
-    const category = await createCategoryService.execute(name, icon);
-    return reply.send(category);
-  });
-
-  fastify.get('/categories', async (request, reply) => {
-    const categories = await categoryRepository.findAll();
-    return reply.send(categories);
-  });
-
-  fastify.get('/categories/:id', async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const category = await categoryRepository.findById(id);
-    return reply.send(category);
-  });
-
-  fastify.patch('/categories/:id', async (request, reply) => {
-    const { id } = request.params as { id: string };
-    const { name, icon } = request.body as { name?: string, icon?: string | null };
-    const category = await categoryRepository.findById(id);
-    if (!category) return reply.status(404).send({ error: 'Category not found' });
-
-    if (name) category.name = name;
-    if (icon !== undefined) category.icon = icon;
-
-    await categoryRepository.update(category);
-    return reply.send(category);
-  });
-
-  fastify.delete('/categories/:id', async (request, reply) => {
-    const { id } = request.params as { id: string };
-    await categoryRepository.delete(id);
-    return reply.status(204).send();
-  });
+  fastify.post('/categories', (request, reply) => categoriesController.create(request, reply));
+  fastify.get('/categories', (request, reply) => categoriesController.index(request, reply));
+  fastify.get('/categories/:id', (request, reply) => categoriesController.show(request, reply));
+  fastify.patch('/categories/:id', (request, reply) => categoriesController.update(request, reply));
+  fastify.delete('/categories/:id', (request, reply) => categoriesController.delete(request, reply));
 }

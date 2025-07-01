@@ -11,6 +11,7 @@ export type CreateBankDTO = {
 export interface BankInterfaceRepository {
   findById(id: string): Promise<Bank | null>;
   findByName(name: string): Promise<Bank | null>;
+  findByIspb(ispb: string): Promise<Bank | null>; 
   findAll(): Promise<Bank[]>;
   create(bank: CreateBankDTO): Promise<Bank>;
   update(bank: Bank): Promise<Bank>;

@@ -8,7 +8,7 @@ export class CreateBankService {
   }
 
   async execute(data: CreateBankDTO): Promise<any> {
-    // Validação básica
+    
     if (
       !data.ispb ||
       !data.name ||
@@ -18,9 +18,20 @@ export class CreateBankService {
       throw new Error("Todos os campos obrigatórios devem ser preenchidos");
     }
 
-    // Aqui você pode adicionar validações extras, como checar duplicidade de ispb ou nome
-
-        const newBank = await this.bankRepository.create(data);
-        return newBank;
-      }
+    
+    const existingBankByIspb = await this.bankRepository.findByIspb(data.ispb);
+    if (existingBankByIspb) {
+      throw new Error("Banco com este ISPB já existe");
     }
+
+    
+    const existingBankByName = await this.bankRepository.findByName(data.name);
+    if (existingBankByName) {
+      throw new Error("Banco com este nome já existe");
+    }
+
+    const newBank = await this.bankRepository.create(data);
+    return newBank;
+  }
+}
+

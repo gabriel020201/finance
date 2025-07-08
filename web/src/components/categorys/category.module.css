@@ -1,0 +1,10 @@
+.scroll-invisivel {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: 305px;
+  border-radius: 4px;
+}
+.scroll-invisivel::-webkit-scrollbar {
+  display: none; 
+}

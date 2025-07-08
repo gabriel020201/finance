@@ -175,6 +175,6 @@ ISC - Gabriel Ribeiro Vitor
 
 ## 📞 Contato
 
-Gabriel Ribeiro Vitor - [seu-email@exemplo.com]
+Gabriel Ribeiro Vitor - [gutorico29@gmail.com]
 
-Link do projeto: [https://github.com/seu-usuario/finance-main]
+Link do projeto: [https://github.com/gabriel020201/finance]

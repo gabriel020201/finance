@@ -8,7 +8,6 @@ Um sistema completo de gerenciamento financeiro com backend em Node.js/TypeScrip
 finance-main/
 ├── server/          # Backend (Node.js + TypeScript + Fastify + Prisma)
 ├── web/             # Frontend (Next.js + React + TypeScript)
-└── docs/            # Documentação
 ```
 
 ## 🚀 Tecnologias

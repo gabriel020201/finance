@@ -5,6 +5,9 @@ import { transactionsRoutes } from './routes/transactions-routes.js';
 import { CategoryRepositoryPrisma } from './repositories/category-repository-prisma.js';
 import { BankRepositoryPrisma } from './repositories/bank-repository-prisma.js';
 import { TransactionRepositoryPrisma } from './repositories/transaction-repository-prisma.js';
+import { AppError } from './common/AppError.js'
+import { ZodError } from 'zod'
+
 
 // Instanciar repositórios Prisma
 const categoryRepository = new CategoryRepositoryPrisma();
@@ -15,6 +18,28 @@ const transactionRepository = new TransactionRepositoryPrisma();
 await fastify.register(categoriesRoutes, { categoryRepository });
 await fastify.register(banksRoutes, { bankRepository });
 await fastify.register(transactionsRoutes, { transactionRepository });
+
+// Middleware para tratamento de erros
+fastify.setErrorHandler((error, request, reply) => {
+  if (error instanceof AppError) {
+    return reply.status(error.statusCode).send({
+      status: 'error',
+      message: error.message,
+    });
+  }
+  if (error instanceof ZodError) {
+    return reply.status(400).send({
+      status: 'error',
+      message: 'Erro de validação',
+      issues: error.errors,
+    });
+  }
+  // Erro genérico
+  return reply.status(500).send({
+    status: 'error',
+    message: 'Erro interno do servidor',
+  });
+});
 
 // Iniciar servidor
 try {

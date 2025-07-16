@@ -1,6 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { BankInterfaceRepository } from "../repositories/banks-interface-repository.js";
-import { CreateBankService } from "../services/banks/create-banks.js";
+import { CreateBankService } from "../services/banks/create-bank-service.js";
+import { DeleteBankService } from "../services/banks/delete-bank-service.js";
+import { UpdateBankService } from "../services/banks/update-bank-service.js";
+import { GetBankService } from "../services/banks/get-bank-service.js";
+import { GetAllBanksService } from "../services/banks/get-all-banks-service.js";
 
 export class BanksController {
   constructor(
@@ -8,31 +12,29 @@ export class BanksController {
   ) {}
 
   async create(request: FastifyRequest, reply: FastifyReply) {
-    const { ispb, name, code, fullName } = request.body as { 
+    const { ispb, name, code, fullName, icon } = request.body as { 
       ispb: string, 
       name: string, 
       code: string, 
-      fullName: string 
+      fullName: string,
+      icon?: string
     };
     
     const createBankService = new CreateBankService(this.bankRepository);
-    const bank = await createBankService.execute({ ispb, name, code, fullName });
+    const bank = await createBankService.execute(ispb, name, code, fullName, icon);
     return reply.send(bank);
   }
 
   async index(request: FastifyRequest, reply: FastifyReply) {
-    const banks = await this.bankRepository.findAll();
+    const getAllBanksService = new GetAllBanksService(this.bankRepository);
+    const banks = await getAllBanksService.execute();
     return reply.send(banks);
   }
 
   async show(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
-    const bank = await this.bankRepository.findById(id);
-    
-    if (!bank) {
-      return reply.status(404).send({ error: 'Bank not found' });
-    }
-    
+    const getBankService = new GetBankService(this.bankRepository);
+    const bank = await getBankService.execute(id);
     return reply.send(bank);
   }
 
@@ -45,28 +47,15 @@ export class BanksController {
       fullName?: string 
     };
 
-    const bankFinded = await this.bankRepository.findById(id);
-    if (!bankFinded) {
-      return reply.status(404).send({ error: 'Bank not found' });
-    }
-
-    if (ispb) bankFinded.ispb = ispb;
-    if (name) bankFinded.name = name;
-    if (code) bankFinded.code = code;
-    if (fullName) bankFinded.fullName = fullName;
-
-    const updatedBank = await this.bankRepository.update(bankFinded);
+    const updateBankService = new UpdateBankService(this.bankRepository);
+    const updatedBank = await updateBankService.execute(id, ispb, name, code, fullName);
     return reply.send(updatedBank);
   }
 
   async delete(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
-    const bankFinded = await this.bankRepository.findById(id);
-    if (!bankFinded) {
-      return reply.status(404).send({ error: 'Bank not found' });
-    }
-
-    await this.bankRepository.delete(id);
+    const deleteBankService = new DeleteBankService(this.bankRepository);
+    await deleteBankService.execute(id);
     return reply.status(204).send();
   }
 }

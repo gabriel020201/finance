@@ -1,6 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { TransactionInterfaceRepository } from "../repositories/transactions-interface-repository.js";
 import { CreateTransactionService } from "../services/transactions/create-transactions.js";
+import { DeleteTransactionService } from "../services/transactions/delete-transaction-service.js";
+import { UpdateTransactionService } from "../services/transactions/update-transaction-service.js";
+import { GetTransactionService } from "../services/transactions/get-transaction-service.js";
+import { GetAllTransactionsService } from "../services/transactions/get-all-transactions-service.js";
+import { GetTransactionsByCategoryService } from "../services/transactions/get-transactions-by-category-service.js";
 
 export class TransactionsController {
   constructor(
@@ -30,24 +35,22 @@ export class TransactionsController {
   }
 
   async index(request: FastifyRequest, reply: FastifyReply) {
-    const transactions = await this.transactionRepository.findAll();
+    const getAllTransactionsService = new GetAllTransactionsService(this.transactionRepository);
+    const transactions = await getAllTransactionsService.execute();
     return reply.send(transactions);
   }
 
   async show(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
-    const transaction = await this.transactionRepository.findById(id);
-    
-    if (!transaction) {
-      return reply.status(404).send({ error: 'Transaction not found' });
-    }
-    
+    const getTransactionService = new GetTransactionService(this.transactionRepository);
+    const transaction = await getTransactionService.execute(id);
     return reply.send(transaction);
   }
 
   async findByCategory(request: FastifyRequest, reply: FastifyReply) {
     const { categoryId } = request.params as { categoryId: string };
-    const transactions = await this.transactionRepository.findByCategory(categoryId);
+    const getTransactionsByCategoryService = new GetTransactionsByCategoryService(this.transactionRepository);
+    const transactions = await getTransactionsByCategoryService.execute(categoryId);
     return reply.send(transactions);
   }
 
@@ -60,28 +63,15 @@ export class TransactionsController {
       date?: Date
     };
 
-    const transactionFinded = await this.transactionRepository.findById(id);
-    if (!transactionFinded) {
-      return reply.status(404).send({ error: 'Transaction not found' });
-    }
-
-    if (description) transactionFinded.description = description;
-    if (type) transactionFinded.type = type;
-    if (amount) transactionFinded.amount = amount;
-    if (date) transactionFinded.date = date;
-
-    const updatedTransaction = await this.transactionRepository.update(transactionFinded);
+    const updateTransactionService = new UpdateTransactionService(this.transactionRepository);
+    const updatedTransaction = await updateTransactionService.execute(id, amount, description, date, type);
     return reply.send(updatedTransaction);
   }
 
   async delete(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
-    const transactionFinded = await this.transactionRepository.findById(id);
-    if (!transactionFinded) {
-      return reply.status(404).send({ error: 'Transaction not found' });
-    }
-
-    await this.transactionRepository.delete(id);
+    const deleteTransactionService = new DeleteTransactionService(this.transactionRepository);
+    await deleteTransactionService.execute(id);
     return reply.status(204).send();
   }
 }

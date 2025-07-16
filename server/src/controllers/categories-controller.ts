@@ -1,6 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CategoryInterfaceRepository } from "../repositories/category-interface-repository.js";
 import { CreateCategoryService } from "../services/categories/create-category-service.js";
+import { DeleteCategoryService } from "../services/categories/delete-category-service.js";
+import { UpdateCategoryService } from "../services/categories/update-category-service.js";
+import { GetCategoryService } from "../services/categories/get-category-service.js";
+import { GetAllCategoriesService } from "../services/categories/get-all-categories-service.js";
 
 export class CategoriesController {
   constructor(
@@ -15,18 +19,15 @@ export class CategoriesController {
   }
 
   async index(request: FastifyRequest, reply: FastifyReply) {
-    const categories = await this.categoryRepository.findAll();
+    const getAllCategoriesService = new GetAllCategoriesService(this.categoryRepository);
+    const categories = await getAllCategoriesService.execute();
     return reply.send(categories);
   }
 
   async show(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
-    const category = await this.categoryRepository.findById(id);
-    
-    if (!category) {
-      return reply.status(404).send({ error: 'Category not found' });
-    }
-    
+    const getCategoryService = new GetCategoryService(this.categoryRepository);
+    const category = await getCategoryService.execute(id);
     return reply.send(category);
   }
 
@@ -34,26 +35,15 @@ export class CategoriesController {
     const { id } = request.params as { id: string };
     const { name, icon } = request.body as { name?: string, icon?: string };
 
-    const categoryFinded = await this.categoryRepository.findById(id);
-    if (!categoryFinded) {
-      return reply.status(404).send({ error: 'Category not found' });
-    }
-
-    if (name) categoryFinded.name = name;
-    if (icon !== undefined) categoryFinded.icon = icon;
-
-    const updatedCategory = await this.categoryRepository.update(categoryFinded);
+    const updateCategoryService = new UpdateCategoryService(this.categoryRepository);
+    const updatedCategory = await updateCategoryService.execute(id, name, icon);
     return reply.send(updatedCategory);
   }
 
   async delete(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
-    const categoryFinded = await this.categoryRepository.findById(id);
-    if (!categoryFinded) {
-      return reply.status(404).send({ error: 'Category not found' });
-    }
-
-    await this.categoryRepository.delete(id);
+    const deleteCategoryService = new DeleteCategoryService(this.categoryRepository);
+    await deleteCategoryService.execute(id);
     return reply.status(204).send();
   }
 }

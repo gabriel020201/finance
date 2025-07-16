@@ -31,7 +31,7 @@ fastify.setErrorHandler((error, request, reply) => {
     return reply.status(400).send({
       status: 'error',
       message: 'Erro de validação',
-      issues: error.errors,
+      issues: error.issues,
     });
   }
   // Erro genérico

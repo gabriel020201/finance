@@ -1,6 +1,7 @@
 import { prisma } from "../database/prisma.js";
 import { Transaction, Category, Bank } from "../entities/transaction.js";
 import { TransactionInterfaceRepository, CreateTransactionDTO } from "./transactions-interface-repository.js";
+import { AppError } from "../common/AppError.js";
 
 export class TransactionRepositoryPrisma implements TransactionInterfaceRepository {
   
@@ -54,7 +55,7 @@ export class TransactionRepositoryPrisma implements TransactionInterfaceReposito
       }
     });
     
-    return transactions.map(transaction => {
+    return transactions.map((transaction: any) => {
       const category = new Category(
         transaction.category.name,
         transaction.category.icon,
@@ -96,7 +97,7 @@ export class TransactionRepositoryPrisma implements TransactionInterfaceReposito
       }
     });
     
-    return transactions.map(transaction => {
+    return transactions.map((transaction: any) => {
       const category = new Category(
         transaction.category.name,
         transaction.category.icon,
@@ -136,7 +137,7 @@ export class TransactionRepositoryPrisma implements TransactionInterfaceReposito
     });
     
     if (!bank) {
-      throw new Error("Banco não encontrado");
+      throw new AppError("Banco não encontrado", 404);
     }
 
     const transaction = await prisma.transaction.create({

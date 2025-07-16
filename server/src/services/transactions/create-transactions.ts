@@ -1,4 +1,5 @@
 import { TransactionInterfaceRepository, CreateTransactionDTO } from "../../repositories/transactions-interface-repository.js";
+import { AppError } from "../../common/AppError.js";
 
 export class CreateTransactionService {
   private transactionRepository: TransactionInterfaceRepository;
@@ -17,10 +18,8 @@ export class CreateTransactionService {
       !data.ispb ||
       !data.type
     ) {
-      throw new Error("Todos os campos obrigatórios devem ser preenchidos");
+      throw new AppError("Todos os campos obrigatórios devem ser preenchidos", 400);
     }
-
-    
 
     const newTransaction = await this.transactionRepository.create(data);
     return newTransaction;

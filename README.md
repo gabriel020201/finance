@@ -131,6 +131,7 @@ npm run setup        # Configuração completa
 npm run seed         # Popular banco com dados
 npm run db:studio    # Interface do banco
 npm run db:reset     # Resetar banco
+npm test             # Rodar teste api
 ```
 
 ### Frontend (pasta `web/`)

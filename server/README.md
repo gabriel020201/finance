@@ -20,22 +20,21 @@ Este é o backend do sistema de gerenciamento financeiro construído com Node.js
 
 ### 1. Clone o repositório
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/gabriel020201/finance.git
 cd finance-main/server
 ```
 
 ### 2. Instale as dependências
 ```bash
 npm install
+ou
+npm i
 ```
 
 ### 3. Configure o ambiente
 ```bash
-# Copie o arquivo de exemplo
-cp .env.example .env
-
-# Ou no Windows:
-copy .env.example .env
+# Crie o arquivo .env e cole o seguinte texto
+DATABASE_URL="file:./dev.db"
 ```
 
 ### 4. Configure o banco de dados
@@ -66,14 +65,7 @@ npm run dev
 - `npm run db:generate` - Gera o cliente Prisma
 - `npm run db:studio` - Abre o Prisma Studio (interface gráfica do banco)
 - `npm run db:reset` - Reseta o banco de dados e executa o seed
-
-## 🚀 Setup Rápido (Uma linha)
-
-Para configurar tudo de uma vez:
-
-```bash
-npm run setup
-```
+- `npm test` - Roda um teste da Api verificando as funções do CRUD
 
 ## 📊 Estrutura do Banco de Dados
 

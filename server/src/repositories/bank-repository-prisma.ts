@@ -61,7 +61,7 @@ export class BankRepositoryPrisma implements BankInterfaceRepository {
   async findAll(): Promise<Bank[]> {
     const banks = await prisma.bank.findMany();
     
-    return banks.map(bank => new Bank(
+    return banks.map((bank: any) => new Bank(
       bank.ispb,
       bank.name,
       bank.code,

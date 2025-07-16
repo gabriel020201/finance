@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { BanksController } from "../controllers/banks-controller.js";
-import { BankRepositoryPrisma } from "../repositories/bank-repository-prisma.js";
+import { BankInterfaceRepository } from "../repositories/banks-interface-repository.js";
 
-export async function banksRoutes(fastify: FastifyInstance) {
-  const bankRepository = new BankRepositoryPrisma();
+export async function banksRoutes(fastify: FastifyInstance, options: { bankRepository: BankInterfaceRepository }) {
+  const { bankRepository } = options;
   const banksController = new BanksController(bankRepository);
 
   fastify.post('/banks', (request, reply) => banksController.create(request, reply));

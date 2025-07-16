@@ -1,4 +1,5 @@
 import { CategoryInterfaceRepository } from "../../repositories/category-interface-repository.js";
+import { AppError } from "../../common/AppError.js";
 
 export class CreateCategoryService {
   private categoryRepository: CategoryInterfaceRepository;
@@ -9,18 +10,15 @@ export class CreateCategoryService {
   
   async execute(name: string, icon?: string | null): Promise<any> {
     if (!name) {
-      throw new Error('Name are required');
+      throw new AppError('Nome é requerido', 400);
     }
-
-   
 
     const existingCategory = await this.categoryRepository.findByName(name);
     if (existingCategory) {
-      throw new Error('Category with this name already exists');
+      throw new AppError('Categoria com este nome já existe', 409);
     }
 
-    const newCategory = this.categoryRepository.create({name, icon});
-
+    const newCategory = await this.categoryRepository.create({name, icon});
 
     return newCategory;
   }

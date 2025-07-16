@@ -39,7 +39,7 @@ export class CategoryRepositoryPrisma implements CategoryInterfaceRepository {
   async findAll(): Promise<Category[]> {
     const categories = await prisma.category.findMany();
     
-    return categories.map(category => new Category(
+    return categories.map((category: any) => new Category(
       category.name,
       category.icon,
       category.id,

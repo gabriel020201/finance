@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { CategoriesController } from "../controllers/categories-controller.js";
-import { CategoryRepositoryPrisma } from "../repositories/category-repository-prisma.js";
+import { CategoryInterfaceRepository } from "../repositories/category-interface-repository.js";
 
-export async function categoriesRoutes(fastify: FastifyInstance) {
-  const categoryRepository = new CategoryRepositoryPrisma();
+export async function categoriesRoutes(fastify: FastifyInstance, options: { categoryRepository: CategoryInterfaceRepository }) {
+  const { categoryRepository } = options;
   const categoriesController = new CategoriesController(categoryRepository);
 
   fastify.post('/categories', (request, reply) => categoriesController.create(request, reply));
